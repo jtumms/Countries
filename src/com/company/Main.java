@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
+        HashMap<String, ArrayList<String>> countryMap = new HashMap<>();
 
         ArrayList<String> countryArray = new ArrayList<>();
         File countryList = new File("countries.txt");
@@ -20,9 +21,9 @@ public class Main {
             String countryName = abbrevWithCountry[1];
             Country country = new Country(abbreviation, countryName);
             countryArray.add(countryName);
-
         }
-        HashMap<String, ArrayList<String>> countryMap = new HashMap<>();
+
+
         for (String eachLine : countryArray){
             String firstLetter = String.valueOf(eachLine.charAt(0));
             countryMap.put(firstLetter, new ArrayList<>());
@@ -33,6 +34,8 @@ public class Main {
             arr.add(eachLine);
         }
 
+
         System.out.println(countryMap);
     }
+
 }
