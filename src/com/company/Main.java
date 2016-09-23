@@ -10,15 +10,6 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        importData();
-
-        populateMap();
-
-        System.out.println(countryMap);
-
-    }
-
-    public static void importData() throws FileNotFoundException {
         ArrayList<String> countryArray = new ArrayList<>();
         File countryList = new File("countries.txt");
         Scanner fileScanner = new Scanner(countryList);
@@ -31,22 +22,17 @@ public class Main {
             countryArray.add(countryName);
 
         }
-
-
-    }
-
-    public static void populateMap() {
         HashMap<String, ArrayList<String>> countryMap = new HashMap<>();
         for (String eachLine : countryArray){
             String firstLetter = String.valueOf(eachLine.charAt(0));
             countryMap.put(firstLetter, new ArrayList<>());
-
         }
-        for (String eachLine : countryArray){
+        for (String eachLine : countryArray) {
             String firstLetter = String.valueOf(eachLine.charAt(0));
             ArrayList<String> arr = countryMap.get(firstLetter);
             arr.add(eachLine);
         }
-    }
 
+        System.out.println(countryMap);
+    }
 }
