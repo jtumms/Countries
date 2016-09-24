@@ -1,9 +1,6 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,9 +10,13 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        System.out.printf("Enter your email address: ");
+        mainMenu();
+
+
+    }
+    static void outToText() throws FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        String email = scanner.nextLine();
+
         System.out.printf("Enter the first letter of the countries you like to output: ");
         String letterIn = scanner.nextLine();
 
@@ -61,13 +62,8 @@ public class Main {
             System.out.println("couldn't write to file");
         }
 
-
-        creatObject(letterIn);
-
-
-
     }
-    static void creatObject(String letterIn){
+    static void creatObject(){
         File countryAllData = new File("countries.txt");
         Scanner fileScanner = null;
         try {
@@ -84,7 +80,28 @@ public class Main {
             Country cntryObj = new Country(firstLetter, abbreviation, countryName);
             System.out.printf("%s   %s    %s\n", cntryObj.getBeginningLetter(), cntryObj.getAbbrev(), cntryObj.getCountryName());
         }
+    }
+    static void mainMenu ()  {
+        System.out.println("[1] Output countries by first letter to console and .txt file");
+        System.out.println("[2] Find a country's official abbreviation code");
+        StringBuffer str = new StringBuffer();                              //Code used from http://stackoverflow.com/questions/30564519/java-read-key-from-console-without-press-enter-key
+        char c;
+        Reader reader = new InputStreamReader(System.in);
+        try {
+            while ((c=(char)reader.read())!='1') {
+                if ((c=(char)reader.read()) == '2'){
+                    creatObject();
+                }
+                str.append(c);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outToText();
+        } catch (FileNotFoundException e) {
 
+        }
 
 
     }
