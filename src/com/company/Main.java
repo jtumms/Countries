@@ -9,8 +9,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
+        while (true) {
 
-        mainMenu();
+            mainMenu();
+
+        }
 
 
     }
@@ -81,15 +84,15 @@ public class Main {
             System.out.printf("%s   %s    %s\n", cntryObj.getBeginningLetter(), cntryObj.getAbbrev(), cntryObj.getCountryName());
         }
     }
-    static void mainMenu ()  {
+    static void mainMenu () {
         System.out.println("[1] Output countries by first letter to console and .txt file");
         System.out.println("[2] Find a country's official abbreviation code");
         StringBuffer str = new StringBuffer();                              //Code used from http://stackoverflow.com/questions/30564519/java-read-key-from-console-without-press-enter-key
         char c;
         Reader reader = new InputStreamReader(System.in);
         try {
-            while ((c=(char)reader.read())!='1') {
-                if ((c=(char)reader.read()) == '2'){
+            if((c = (char) reader.read()) != '1') {
+                if ((c = (char) reader.read()) == '2') {
                     creatObject();
                 }
                 str.append(c);
@@ -102,7 +105,6 @@ public class Main {
         } catch (FileNotFoundException e) {
 
         }
-
 
     }
 }
