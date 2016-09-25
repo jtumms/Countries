@@ -1,10 +1,8 @@
 package com.company;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Main {
 
@@ -66,7 +64,10 @@ public class Main {
         }
 
     }
-    static void creatObject(){
+    static void outputCountry(){
+        System.out.println("Enter the country name:");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
         File countryAllData = new File("countries.txt");
         Scanner fileScanner = null;
         try {
@@ -74,37 +75,40 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        while (fileScanner.hasNext()) {
-            String scanLine = fileScanner.nextLine();
-            String[] abbrevWithCountry = scanLine.split("\\|");
-            String abbreviation = abbrevWithCountry[0];
-            String countryName = abbrevWithCountry[1];
-            String firstLetter = countryName.substring(0,1);
-            Country cntryObj = new Country(firstLetter, abbreviation, countryName);
-            System.out.printf("%s   %s    %s\n", cntryObj.getBeginningLetter(), cntryObj.getAbbrev(), cntryObj.getCountryName());
+        while (fileScanner.hasNextLine()) {
+            final String lineFromFile = fileScanner.nextLine();
+            if(lineFromFile.contains(input)) {
+                // a match!
+                String[] abbrevWithCountry =  lineFromFile.split("\\|");
+                String abbreviation = abbrevWithCountry[0];
+                String countryName = abbrevWithCountry[1];
+                System.out.printf("Country Name: %s\n", countryName);
+                System.out.printf("Official Country Abbreviation: %s\n", abbreviation);
+                Country
+                break;
+            }
         }
+
     }
+
     static void mainMenu () {
         System.out.println("[1] Output countries by first letter to console and .txt file");
         System.out.println("[2] Find a country's official abbreviation code");
-        StringBuffer str = new StringBuffer();                              //Code used from http://stackoverflow.com/questions/30564519/java-read-key-from-console-without-press-enter-key
-        char c;
-        Reader reader = new InputStreamReader(System.in);
-        try {
-            if((c = (char) reader.read()) != '1') {
-                if ((c = (char) reader.read()) == '2') {
-                    creatObject();
-                }
-                str.append(c);
+        Scanner scanner = new Scanner(System.in);
+        String option = scanner.nextLine();
+        if (option.equalsIgnoreCase("1")){
+            try {
+                outToText();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        try {
-            outToText();
-        } catch (FileNotFoundException e) {
+        else if (option.equalsIgnoreCase("2")){
+            outputCountry();
 
         }
+        else{
 
+        }
     }
 }
