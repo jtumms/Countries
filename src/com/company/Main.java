@@ -80,14 +80,17 @@ public class Main {
             if(lineFromFile.contains(input)) {
                 // a match!
                 String[] abbrevWithCountry =  lineFromFile.split("\\|");
+                String firstLetter = String.valueOf(lineFromFile.charAt(0));
                 String abbreviation = abbrevWithCountry[0];
                 String countryName = abbrevWithCountry[1];
-                System.out.printf("Country Name: %s\n", countryName);
-                System.out.printf("Official Country Abbreviation: %s\n", abbreviation);
-                Country
+                Country country = new Country(firstLetter, abbreviation, countryName);
+                System.out.printf("Country Name: %s\n", country.getCountryName());
+                System.out.printf("Official Country Abbreviation: %s\n", country.getAbbrev());
                 break;
             }
         }
+
+
 
     }
 
