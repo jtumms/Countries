@@ -1,8 +1,11 @@
 package com.company;
 
+import jodd.json.JsonSerializer;
+
 import java.io.*;
-import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
 
@@ -15,11 +18,15 @@ public class Main {
 
 
     }
-    static void outToText() throws FileNotFoundException {
+    static void outToText() throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         System.out.printf("Enter the first letter of the countries you like to output: ");
         String letterIn = scanner.nextLine();
+        if (letterIn.length() > 1){
+            throw new Exception("Invalid User Input!!!");
+
+        }
 
         HashMap<String, ArrayList<String>> countryMap = new HashMap<String, ArrayList<String>>();
         ArrayList<String> countryArray = new ArrayList<>();
@@ -44,9 +51,12 @@ public class Main {
             String firstLetter = String.valueOf(eachLine.charAt(0));
             ArrayList<String> arr = countryMap.get(firstLetter);
             arr.add(eachLine);
+
         }
+
         System.out.println(countryMap.get(letterIn));
         ArrayList<String> al = countryMap.get(letterIn);
+        File jsonFile = new File(letterIn + "_countries.json");
         File f = new File(letterIn + "_countries.txt");
         try {
             FileWriter fw = new FileWriter(f);
@@ -64,7 +74,7 @@ public class Main {
         }
 
     }
-    static void outputCountry(){
+    static void outputCountry() throws IOException {
         System.out.println("Enter the country name:");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -84,8 +94,17 @@ public class Main {
                 String abbreviation = abbrevWithCountry[0];
                 String countryName = abbrevWithCountry[1];
                 Country country = new Country(firstLetter, abbreviation, countryName);
+                CountryWrapper cw = new CountryWrapper(country);
+                File jsonFile = new File(firstLetter + "_countries.json");
+                FileWriter jsonWriter = new FileWriter(jsonFile);
+                JsonSerializer serializer = new JsonSerializer();
+                String jsonString = serializer.deep(true).serialize(cw);
+
+                jsonWriter.write(jsonString);
+                jsonWriter.close();
+
                 System.out.printf("Country Name: %s\n", country.getCountryName());
-                System.out.printf("Official Country Abbreviation: %s\n", country.getAbbrev());
+                System.out.printf("Official Country Code: %s\n", country.getAbbrev());
                 break;
             }
         }
@@ -96,7 +115,8 @@ public class Main {
 
     static void mainMenu () {
         System.out.println("[1] Output countries by first letter to console and .txt file");
-        System.out.println("[2] Find a country's official abbreviation code");
+        System.out.println("[2] Find a country's official country code");
+        System.out.println("[3] Get extended country iformation by country code");
         Scanner scanner = new Scanner(System.in);
         String option = scanner.nextLine();
         if (option.equalsIgnoreCase("1")){
@@ -104,11 +124,24 @@ public class Main {
                 outToText();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        else if (option.equalsIgnoreCase("2")){
-            outputCountry();
+        if (option.equalsIgnoreCase("2")){
+            try {
+                outputCountry();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+        }
+        if (option.equalsIgnoreCase("3")){
+            try {
+                RESTcountryInfo.parseRestAPI();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
         else{
 
