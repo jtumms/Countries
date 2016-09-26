@@ -2,7 +2,7 @@ package com.company;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static com.company.Main.outputCountry;
 
 /**
  * Created by john.tumminelli on 9/25/16.
@@ -16,6 +16,9 @@ public class TestCountry {
         country.beginningLetter = "v";
         country.abbrev = "us";
         country.countryName = "USA";
+
+
+
 
 
 
