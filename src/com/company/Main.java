@@ -1,7 +1,6 @@
 package com.company;
 
 import jodd.json.JsonSerializer;
-
 import java.io.*;
 import java.net.MalformedURLException;
 import java.util.*;
@@ -15,8 +14,6 @@ public class Main {
             mainMenu();
 
         }
-
-
     }
     static void outToText() throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -93,17 +90,19 @@ public class Main {
                 String firstLetter = String.valueOf(lineFromFile.charAt(0));
                 String abbreviation = abbrevWithCountry[0];
                 String countryName = abbrevWithCountry[1];
+
+                // create country object here
                 Country country = new Country(firstLetter, abbreviation, countryName);
-                CountryWrapper cw = new CountryWrapper(country);
+                CountryWrapper cw = new CountryWrapper(country);        //country wrapper - wrapped country cobject as json
                 File jsonFile = new File(firstLetter + "_countries.json");
                 FileWriter jsonWriter = new FileWriter(jsonFile);
                 JsonSerializer serializer = new JsonSerializer();
-                String jsonString = serializer.deep(true).serialize(cw);
+                String jsonString = serializer.deep(true).serialize(cw);  //use deep-true for serializer
 
                 jsonWriter.write(jsonString);
                 jsonWriter.close();
 
-                System.out.printf("Country Name: %s\n", country.getCountryName());
+                System.out.printf("Country Name: %s\n", country.getCountryName());          //output to console for end user
                 System.out.printf("Official Country Code: %s\n", country.getAbbrev());
                 break;
             }
@@ -116,7 +115,7 @@ public class Main {
     static void mainMenu () {
         System.out.println("[1] Output countries by first letter to console and .txt file");
         System.out.println("[2] Find a country's official country code");
-        System.out.println("[3] Get extended country iformation by country code");
+        System.out.println("[3] Get extended country information by country code");
         Scanner scanner = new Scanner(System.in);
         String option = scanner.nextLine();
         if (option.equalsIgnoreCase("1")){
